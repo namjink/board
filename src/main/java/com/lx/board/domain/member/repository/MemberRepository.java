@@ -4,6 +4,7 @@ import com.lx.board.domain.member.application.port.out.MemberPersistent;
 import com.lx.board.domain.member.domain.Member;
 import com.lx.board.domain.member.repository.entity.MemberEntity;
 import com.lx.board.global.exception.BusinessException;
+import com.lx.board.global.exception.ErrorCode;
 import org.springframework.stereotype.Component;
 
 import java.util.HashMap;
@@ -44,7 +45,7 @@ public class MemberRepository implements MemberPersistent {
     @Override
     public Member findByUsername(String username) {
         Optional<Map.Entry<String, MemberEntity>> memberEntry = memberMap.entrySet().stream().filter(stringMemberEntityEntry -> stringMemberEntityEntry.getValue().username().equals(username)).findFirst();
-        MemberEntity memberEntity = memberEntry.orElseThrow(() -> new BusinessException("해당 아이디로 가입된 회원은 존재하지 않습니다.")).getValue();
+        MemberEntity memberEntity = memberEntry.orElseThrow(() -> new BusinessException(ErrorCode.RESOURCE_NOT_FOUND, "해당 아이디로 가입된 회원은 존재하지 않습니다.")).getValue();
         return Member.createWithId(memberEntry.get().getKey(), memberEntity.username(), memberEntity.password(), memberEntity.nickname());
     }
 

@@ -8,6 +8,7 @@ import com.lx.board.domain.member.dto.request.*;
 import com.lx.board.domain.member.dto.response.GetAllMemberResponse;
 import com.lx.board.domain.member.dto.response.CommonMemberResponse;
 import com.lx.board.global.exception.BusinessException;
+import com.lx.board.global.exception.ErrorCode;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -20,12 +21,12 @@ public class MemberService implements MemberReadCase, MemberWriteCase {
 
     @Override
     public CommonMemberResponse findMemberBy(String searchBy, String data) {
-        throw new BusinessException("구현되지 않은 기능입니다.");
+        throw new BusinessException(ErrorCode.NOT_YET_IMPLEMENTED);
     }
 
     @Override
     public GetAllMemberResponse findAll() {
-        throw new BusinessException("구현되지 않은 기능입니다.");
+        throw new BusinessException(ErrorCode.NOT_YET_IMPLEMENTED);
     }
 
     @Override
@@ -38,23 +39,23 @@ public class MemberService implements MemberReadCase, MemberWriteCase {
     @Override
     public CommonMemberResponse login(LoginRequest loginRequest) {
         Member member = memberPersistent.findByUsername(loginRequest.username());
-        if (!member.login(loginRequest.password())) throw new BusinessException("잘못된 비밀번호입니다.");
+        if (!member.login(loginRequest.password())) throw new BusinessException(ErrorCode.RESOURCE_NOT_FOUND, "잘못된 비밀번호입니다.");
         return new CommonMemberResponse(member.getId(), member.getUsername(), member.getNickname());
     }
 
     @Override
     public void updatePassword(PutPasswordRequest putPasswordRequest) {
-        throw new BusinessException("구현되지 않은 기능입니다.");
+        throw new BusinessException(ErrorCode.NOT_YET_IMPLEMENTED);
     }
 
     @Override
     public CommonMemberResponse updateNickname(PutNicknameRequest putNicknameRequest) {
-        throw new BusinessException("구현되지 않은 기능입니다.");
+        throw new BusinessException(ErrorCode.NOT_YET_IMPLEMENTED);
     }
 
     @Override
     public void deleteMember(DeleteMemberRequest deleteMemberRequest) {
-        throw new BusinessException("구현되지 않은 기능입니다.");
+        throw new BusinessException(ErrorCode.NOT_YET_IMPLEMENTED);
     }
 
 
