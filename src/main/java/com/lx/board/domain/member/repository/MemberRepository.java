@@ -3,8 +3,10 @@ package com.lx.board.domain.member.repository;
 import com.lx.board.domain.member.application.port.out.MemberPersistent;
 import com.lx.board.domain.member.domain.Member;
 import com.lx.board.domain.member.repository.entity.MemberEntity;
+import com.lx.board.domain.member.repository.jpa.MemberJpaRepository;
 import com.lx.board.global.exception.BusinessException;
 import com.lx.board.global.exception.ErrorCode;
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 
 import java.util.HashMap;
@@ -13,40 +15,35 @@ import java.util.Optional;
 import java.util.UUID;
 
 @Component
+@RequiredArgsConstructor
 public class MemberRepository implements MemberPersistent {
 
-    private final HashMap<String, MemberEntity> memberMap;
-
-    public MemberRepository() {
-        this.memberMap = new HashMap<>();
-    }
+    private final MemberJpaRepository memberRepository;
 
     @Override
     public String save(Member member) {
-        String id = UUID.randomUUID().toString();
         MemberEntity memberEntity = new MemberEntity(member.getUsername(), member.getPassword(), member.getNickname());
-        memberMap.put(id, memberEntity);
-        return id;
+        memberRepository.save(memberEntity);
+        return memberEntity.getId().toString();
     }
 
     @Override
     public void update(Member member) {
-        String id = member.getId();
-        MemberEntity memberEntity = new MemberEntity(member.getUsername(), member.getPassword(), member.getNickname());
-        memberMap.replace(id, memberEntity);
+        MemberEntity memberEntity = memberRepository.findById(UUID.fromString(member.getId())).orElseThrow(() -> new BusinessException(ErrorCode.RESOURCE_NOT_FOUND));
+        memberEntity.update(member.getUsername(), member.getPassword(), member.getNickname());
     }
 
     @Override
     public Member findById(String id) {
-        MemberEntity memberEntity = memberMap.get(id);
-        return Member.createWithId(id, memberEntity.username(), memberEntity.password(), memberEntity.nickname());
+        MemberEntity memberEntity = memberRepository.findById(UUID.fromString(id)).orElseThrow(() -> new BusinessException(ErrorCode.RESOURCE_NOT_FOUND));
+        return Member.createWithId(memberEntity.getId().toString(), memberEntity.getUsername(), memberEntity.getPassword(), memberEntity.getNickname());
     }
 
     @Override
     public Member findByUsername(String username) {
-        Optional<Map.Entry<String, MemberEntity>> memberEntry = memberMap.entrySet().stream().filter(stringMemberEntityEntry -> stringMemberEntityEntry.getValue().username().equals(username)).findFirst();
-        MemberEntity memberEntity = memberEntry.orElseThrow(() -> new BusinessException(ErrorCode.RESOURCE_NOT_FOUND, "해당 아이디로 가입된 회원은 존재하지 않습니다.")).getValue();
-        return Member.createWithId(memberEntry.get().getKey(), memberEntity.username(), memberEntity.password(), memberEntity.nickname());
+        MemberEntity memberEntity = memberRepository.findByUsername(username).orElse(null);
+        if (memberEntity == null) return null;
+        return Member.createWithId(memberEntity.getId().toString(), memberEntity.getUsername(), memberEntity.getPassword(), memberEntity.getNickname());
     }
 
 

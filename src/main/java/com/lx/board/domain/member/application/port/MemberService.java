@@ -39,7 +39,7 @@ public class MemberService implements MemberReadCase, MemberWriteCase {
     @Override
     public CommonMemberResponse login(LoginRequest loginRequest) {
         Member member = memberPersistent.findByUsername(loginRequest.username());
-        if (!member.login(loginRequest.password())) throw new BusinessException(ErrorCode.RESOURCE_NOT_FOUND, "잘못된 비밀번호입니다.");
+        if (member == null || !member.login(loginRequest.password())) throw new BusinessException(ErrorCode.RESOURCE_NOT_FOUND, "회원정보가 존재하지 않거나 정확하지 않습니다.");
         return new CommonMemberResponse(member.getId(), member.getUsername(), member.getNickname());
     }
 

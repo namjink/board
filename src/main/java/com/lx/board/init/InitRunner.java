@@ -15,6 +15,8 @@ public class InitRunner implements ApplicationRunner {
 
     @Override
     public void run(ApplicationArguments args) throws Exception {
-        memberPersistent.save(Member.create("test", "test", "test"));
+        if (memberPersistent.findByUsername("test") == null) {
+            memberPersistent.save(Member.create("test", "test", "test"));
+        }
     }
 }
