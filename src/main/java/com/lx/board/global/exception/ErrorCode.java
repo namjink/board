@@ -11,8 +11,8 @@ import static org.springframework.http.HttpStatus.*;
 public enum ErrorCode {
 
     //401
-    UNAUTHORIZED_MEMBER(UNAUTHORIZED, "사용자 정보가 존재하지 않습니다."),
-    UNAUTHENTICATED_MEMBER(UNAUTHORIZED, "권한이 없는 사용자입니다."),
+    UNAUTHENTICATED_MEMBER(UNAUTHORIZED, "사용자 정보가 존재하지 않습니다."),
+    UNAUTHORIZED_MEMBER(UNAUTHORIZED, "권한이 없는 사용자입니다."),
 
     //404
     RESOURCE_NOT_FOUND(NOT_FOUND, "요청된 정보를 찾을 수 없습니다."),
