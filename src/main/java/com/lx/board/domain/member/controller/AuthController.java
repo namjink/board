@@ -25,7 +25,11 @@ public class AuthController {
     @PostMapping("/signup")
     public CommonMemberResponse signup(@RequestBody SignUpRequest signUpRequest, HttpServletResponse httpResponse) {
         CommonMemberResponse commonMemberResponse = memberWriteCase.signUp(signUpRequest);
-        httpResponse.addCookie(new Cookie(token, commonMemberResponse.id()));
+        Cookie cookie = new Cookie(token, commonMemberResponse.id());
+        cookie.setHttpOnly(true);
+        cookie.setPath("/");
+        cookie.setMaxAge(Integer.MAX_VALUE);
+        httpResponse.addCookie(cookie);
         return commonMemberResponse;
     }
 
