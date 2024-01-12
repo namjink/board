@@ -7,10 +7,12 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 import org.springframework.web.servlet.HandlerInterceptor;
 
+import java.util.UUID;
+
 @Component
 public class APIInterceptor implements HandlerInterceptor {
 
-    public static ThreadLocal<String> loginMember = new ThreadLocal<>();
+    public static ThreadLocal<UUID> loginMember = new ThreadLocal<>();
     @Value("${token.name}")
     private String token;
 
@@ -19,7 +21,7 @@ public class APIInterceptor implements HandlerInterceptor {
         if (!(request.getCookies() == null)) {
             for (Cookie cookie : request.getCookies()) {
                 if (cookie.getName().equals(token)) {
-                    loginMember.set(cookie.getValue());
+                    loginMember.set(UUID.fromString(cookie.getValue()));
                     break;
                 }
             }

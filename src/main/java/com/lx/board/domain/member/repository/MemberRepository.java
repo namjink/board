@@ -9,9 +9,6 @@ import com.lx.board.global.exception.ErrorCode;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 
-import java.util.HashMap;
-import java.util.Map;
-import java.util.Optional;
 import java.util.UUID;
 
 @Component
@@ -29,21 +26,21 @@ public class MemberRepository implements MemberPersistent {
 
     @Override
     public void update(Member member) {
-        MemberEntity memberEntity = memberRepository.findById(UUID.fromString(member.getId())).orElseThrow(() -> new BusinessException(ErrorCode.RESOURCE_NOT_FOUND));
+        MemberEntity memberEntity = memberRepository.findById(member.getId()).orElseThrow(() -> new BusinessException(ErrorCode.RESOURCE_NOT_FOUND));
         memberEntity.update(member.getUsername(), member.getPassword(), member.getNickname());
     }
 
     @Override
-    public Member findById(String id) {
-        MemberEntity memberEntity = memberRepository.findById(UUID.fromString(id)).orElseThrow(() -> new BusinessException(ErrorCode.RESOURCE_NOT_FOUND));
-        return Member.createWithId(memberEntity.getId().toString(), memberEntity.getUsername(), memberEntity.getPassword(), memberEntity.getNickname());
+    public Member findById(UUID id) {
+        MemberEntity memberEntity = memberRepository.findById(id).orElseThrow(() -> new BusinessException(ErrorCode.RESOURCE_NOT_FOUND));
+        return Member.createWithId(memberEntity.getId(), memberEntity.getUsername(), memberEntity.getPassword(), memberEntity.getNickname());
     }
 
     @Override
     public Member findByUsername(String username) {
         MemberEntity memberEntity = memberRepository.findByUsername(username).orElse(null);
         if (memberEntity == null) return null;
-        return Member.createWithId(memberEntity.getId().toString(), memberEntity.getUsername(), memberEntity.getPassword(), memberEntity.getNickname());
+        return Member.createWithId(memberEntity.getId(), memberEntity.getUsername(), memberEntity.getPassword(), memberEntity.getNickname());
     }
 
 

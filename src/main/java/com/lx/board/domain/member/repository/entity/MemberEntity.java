@@ -1,5 +1,6 @@
 package com.lx.board.domain.member.repository.entity;
 
+import com.lx.board.domain.base.entity.BaseTimeEntity;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -13,7 +14,7 @@ import java.util.UUID;
 @Entity(name = "MEMBER")
 @Getter
 @NoArgsConstructor
-public class MemberEntity {
+public class MemberEntity extends BaseTimeEntity {
 
         @GeneratedValue(generator = "memberIdGenerator")
         @GenericGenerator(name = "uuid2", type = org.hibernate.id.uuid.UuidGenerator.class)

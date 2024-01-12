@@ -9,11 +9,13 @@ import com.lx.board.domain.member.dto.response.GetAllMemberResponse;
 import com.lx.board.domain.member.dto.response.CommonMemberResponse;
 import com.lx.board.global.exception.BusinessException;
 import com.lx.board.global.exception.ErrorCode;
+import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 @Service
 @RequiredArgsConstructor
+@Transactional
 public class MemberService implements MemberReadCase, MemberWriteCase {
 
     private final MemberPersistent memberPersistent;
@@ -40,7 +42,7 @@ public class MemberService implements MemberReadCase, MemberWriteCase {
     public CommonMemberResponse login(LoginRequest loginRequest) {
         Member member = memberPersistent.findByUsername(loginRequest.username());
         if (member == null || !member.login(loginRequest.password())) throw new BusinessException(ErrorCode.RESOURCE_NOT_FOUND, "회원정보가 존재하지 않거나 정확하지 않습니다.");
-        return new CommonMemberResponse(member.getId(), member.getUsername(), member.getNickname());
+        return new CommonMemberResponse(member.getId().toString(), member.getUsername(), member.getNickname());
     }
 
     @Override

@@ -6,12 +6,14 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
 
+import java.util.UUID;
+
 @AllArgsConstructor(access = AccessLevel.PRIVATE)
 @Builder(access = AccessLevel.PRIVATE)
 @Getter
 public class Member {
 
-    private String id;
+    private UUID id;
 
     private String username;
 
@@ -27,7 +29,7 @@ public class Member {
                 .build();
     }
 
-    public static Member createWithId(String id, String username, String password, String nickname) {
+    public static Member createWithId(UUID id, String username, String password, String nickname) {
         return Member.builder()
                 .id(id)
                 .username(username)
