@@ -19,6 +19,7 @@ public class MemberEntity extends BaseTimeEntity {
         @GeneratedValue(generator = "memberIdGenerator")
         @GenericGenerator(name = "uuid2", type = org.hibernate.id.uuid.UuidGenerator.class)
         @Id
+        @Column(columnDefinition = "BINARY(16)")
         private UUID Id;
         @Column
         private String username;
