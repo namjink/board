@@ -1,7 +1,7 @@
 package com.lx.board.init;
 
 import com.lx.board.domain.board.domain.Board;
-import com.lx.board.domain.board.port.out.BoardPersistent;
+import com.lx.board.domain.board.application.port.out.BoardPersistent;
 import com.lx.board.domain.member.application.port.out.MemberPersistent;
 import com.lx.board.domain.member.domain.Member;
 import com.lx.board.global.inteceptor.APIInterceptor;
@@ -25,12 +25,13 @@ public class InitRunner implements ApplicationRunner {
         if (memberPersistent.findByUsername("test") == null) {
 
             member = Member.create("test", "test", "test");
-            memberPersistent.save(member);
+            member = memberPersistent.save(member);
 
-            member = memberPersistent.findByUsername("test");
             APIInterceptor.loginMember.set(member.getId());
 
-            boardPersistent.save(Board.create("test", "test"));
+            Board board = Board.create("test", "test");
+
+            boardPersistent.save(board);
         }
     }
 }

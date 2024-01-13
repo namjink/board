@@ -21,4 +21,12 @@ public class Board {
                 .build();
     }
 
+    public static Board createWithId(Long id, String title, String description) {
+        return Board.builder()
+                .id(id)
+                .title(title)
+                .description(description)
+                .build();
+    }
+
 }

@@ -7,41 +7,45 @@ import com.lx.board.domain.member.repository.jpa.MemberJpaRepository;
 import com.lx.board.global.exception.BusinessException;
 import com.lx.board.global.exception.ErrorCode;
 import lombok.RequiredArgsConstructor;
-import org.springframework.stereotype.Component;
+import org.springframework.stereotype.Repository;
 
 import java.util.UUID;
 
-@Component
+@Repository
 @RequiredArgsConstructor
 public class MemberRepository implements MemberPersistent {
 
     private final MemberJpaRepository memberRepository;
 
     @Override
-    public String save(Member member) {
+    public Member save(Member member) {
         MemberEntity memberEntity = new MemberEntity(member.getUsername(), member.getPassword(), member.getNickname());
         memberRepository.save(memberEntity);
-        return memberEntity.getId().toString();
+        return toDomain(memberEntity);
     }
 
     @Override
-    public void update(Member member) {
+    public Member update(Member member) {
         MemberEntity memberEntity = memberRepository.findById(member.getId()).orElseThrow(() -> new BusinessException(ErrorCode.RESOURCE_NOT_FOUND));
         memberEntity.update(member.getUsername(), member.getPassword(), member.getNickname());
+        return toDomain(memberEntity);
     }
 
     @Override
     public Member findById(UUID id) {
         MemberEntity memberEntity = memberRepository.findById(id).orElseThrow(() -> new BusinessException(ErrorCode.RESOURCE_NOT_FOUND));
-        return Member.createWithId(memberEntity.getId(), memberEntity.getUsername(), memberEntity.getPassword(), memberEntity.getNickname());
+        return toDomain(memberEntity);
     }
 
     @Override
     public Member findByUsername(String username) {
         MemberEntity memberEntity = memberRepository.findByUsername(username).orElse(null);
         if (memberEntity == null) return null;
-        return Member.createWithId(memberEntity.getId(), memberEntity.getUsername(), memberEntity.getPassword(), memberEntity.getNickname());
+        return toDomain(memberEntity);
     }
 
+    private Member toDomain(MemberEntity memberEntity) {
+        return Member.createWithId(memberEntity.getId(), memberEntity.getUsername(), memberEntity.getPassword(), memberEntity.getNickname());
+    }
 
 }

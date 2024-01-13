@@ -34,8 +34,8 @@ public class MemberService implements MemberReadCase, MemberWriteCase {
     @Override
     public CommonMemberResponse signUp(SignUpRequest signUpRequest) {
         Member member = Member.create(signUpRequest.username(), signUpRequest.password(), signUpRequest.nickname());
-        String generatedId = memberPersistent.save(member);
-        return new CommonMemberResponse(generatedId, member.getUsername(), member.getNickname());
+        member = memberPersistent.save(member);
+        return new CommonMemberResponse(member.getId().toString(), member.getUsername(), member.getNickname());
     }
 
     @Override

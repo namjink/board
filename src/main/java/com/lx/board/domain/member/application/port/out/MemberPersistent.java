@@ -6,9 +6,9 @@ import java.util.UUID;
 
 public interface MemberPersistent {
 
-    String save(Member member);
+    Member save(Member member);
 
-    void update(Member member);
+    Member update(Member member);
 
     Member findById(UUID id);
 
