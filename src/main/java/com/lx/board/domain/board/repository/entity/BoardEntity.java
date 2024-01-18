@@ -13,8 +13,7 @@ import org.hibernate.annotations.GenericGenerator;
 public class BoardEntity extends BaseMemberEntity {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "BOARD_SEQ_GENERATOR")
-    @GenericGenerator(name = "BOARD_SEQ_GENERATOR")
+    @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
     @Column
     private String title;
