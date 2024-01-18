@@ -34,7 +34,7 @@ public class BoardService implements BoardReadCase, BoardWriteCase {
     @Override
     public CommonBoardResponse postBoard(PostBoardRequest postBoardRequest) {
         Board board = Board.create(postBoardRequest.title(), postBoardRequest.description());
-        board = boardPersistent.save(board);
+        boardPersistent.save(board);
         return toResponse(board);
     }
 

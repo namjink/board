@@ -6,7 +6,7 @@ import java.util.List;
 
 public interface BoardPersistent {
 
-    Board save(Board board);
+    void save(Board board);
 
     Board findById(Long boardId);
 

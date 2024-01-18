@@ -19,13 +19,13 @@ public class BoardRepository implements BoardPersistent {
 
     private final BoardJpaRepository boardRepository;
     @Override
-    public Board save(Board board) {
+    public void save(Board board) {
         BoardEntity boardEntity = BoardEntity.builder()
                 .title(board.getTitle())
                 .description(board.getDescription())
                 .build();
         boardRepository.save(boardEntity);
-        return toDomain(boardEntity);
+        board.generateId(boardEntity.getId());
     }
 
     @Override

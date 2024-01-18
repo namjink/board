@@ -21,11 +21,11 @@ public class InitRunner implements ApplicationRunner {
 
     @Override
     public void run(ApplicationArguments args) throws Exception {
-        Member member = null;
+
         if (memberPersistent.findByUsername("test") == null) {
 
-            member = Member.create("test", "test", "test");
-            member = memberPersistent.save(member);
+            Member member = Member.create("test", "test", "test");
+            memberPersistent.save(member);
 
             APIInterceptor.loginMember.set(member.getId());
 

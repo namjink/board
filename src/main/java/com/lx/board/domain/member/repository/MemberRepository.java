@@ -18,17 +18,16 @@ public class MemberRepository implements MemberPersistent {
     private final MemberJpaRepository memberRepository;
 
     @Override
-    public Member save(Member member) {
+    public void save(Member member) {
         MemberEntity memberEntity = new MemberEntity(member.getUsername(), member.getPassword(), member.getNickname());
         memberRepository.save(memberEntity);
-        return toDomain(memberEntity);
+        member.generateId(memberEntity.getId());
     }
 
     @Override
-    public Member update(Member member) {
+    public void update(Member member) {
         MemberEntity memberEntity = memberRepository.findById(member.getId()).orElseThrow(() -> new BusinessException(ErrorCode.RESOURCE_NOT_FOUND));
         memberEntity.update(member.getUsername(), member.getPassword(), member.getNickname());
-        return toDomain(memberEntity);
     }
 
     @Override

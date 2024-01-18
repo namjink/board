@@ -29,4 +29,8 @@ public class Board {
                 .build();
     }
 
+    public void generateId(Long id) {
+        this.id = id;
+    }
+
 }

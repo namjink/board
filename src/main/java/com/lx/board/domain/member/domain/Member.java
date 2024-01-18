@@ -38,6 +38,10 @@ public class Member {
                 .build();
     }
 
+    public void generateId(UUID id) {
+        this.id = id;
+    }
+
     public boolean login(String password) {
         return BcryptEncoder.match(password, this.password);
     }
