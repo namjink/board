@@ -44,7 +44,9 @@ public class MemberRepository implements MemberPersistent {
     }
 
     private Member toDomain(MemberEntity memberEntity) {
-        return Member.createWithId(memberEntity.getId(), memberEntity.getUsername(), memberEntity.getPassword(), memberEntity.getNickname());
+        return Member
+                .createWithId(memberEntity.getId(), memberEntity.getUsername(), memberEntity.getPassword(), memberEntity.getNickname())
+                .stampTime(memberEntity.getCreateAt(), memberEntity.getModifiedAt());
     }
 
 }

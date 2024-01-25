@@ -11,6 +11,7 @@ import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
+import java.util.UUID;
 import java.util.stream.Collectors;
 
 @Repository
@@ -40,6 +41,9 @@ public class BoardRepository implements BoardPersistent {
     }
 
     private Board toDomain(BoardEntity boardEntity) {
-        return Board.createWithId(boardEntity.getId(), boardEntity.getTitle(), boardEntity.getDescription());
+        return Board
+                .createWithId(boardEntity.getId(), boardEntity.getTitle(), boardEntity.getDescription())
+                .stampMember(boardEntity.getCreatedBy(), boardEntity.getModifiedBy())
+                .stampTime(boardEntity.getCreateAt(), boardEntity.getModifiedAt());
     }
 }

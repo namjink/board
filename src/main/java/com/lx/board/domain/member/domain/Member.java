@@ -1,5 +1,6 @@
 package com.lx.board.domain.member.domain;
 
+import com.lx.board.domain.base.domain.BaseTimeDomain;
 import com.lx.board.global.util.BcryptEncoder;
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
@@ -11,7 +12,7 @@ import java.util.UUID;
 @AllArgsConstructor(access = AccessLevel.PRIVATE)
 @Builder(access = AccessLevel.PRIVATE)
 @Getter
-public class Member {
+public class Member extends BaseTimeDomain {
 
     private UUID id;
 

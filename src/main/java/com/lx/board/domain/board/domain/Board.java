@@ -1,5 +1,6 @@
 package com.lx.board.domain.board.domain;
 
+import com.lx.board.domain.base.domain.BaseMemberDomain;
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -8,7 +9,7 @@ import lombok.Getter;
 @AllArgsConstructor(access = AccessLevel.PRIVATE)
 @Builder(access = AccessLevel.PRIVATE)
 @Getter
-public class Board {
+public class Board extends BaseMemberDomain {
 
     private Long id;
     private String title;
