@@ -1,4 +1,4 @@
-package com.lx.board.domain.base.packageTemplate.application.port;
+package com.lx.board.domain.base.packageTemplate.application;
 
 import com.lx.board.domain.base.packageTemplate.application.port.in.TemplateReadCase;
 import com.lx.board.domain.base.packageTemplate.application.port.in.TemplateWriteCase;

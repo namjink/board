@@ -1,4 +1,4 @@
-package com.lx.board.domain.board.application.port;
+package com.lx.board.domain.board.application;
 
 import com.lx.board.domain.board.application.port.in.BoardReadCase;
 import com.lx.board.domain.board.application.port.in.BoardWriteCase;
