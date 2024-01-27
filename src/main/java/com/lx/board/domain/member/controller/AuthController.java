@@ -25,10 +25,7 @@ public class AuthController {
     @PostMapping("/signup")
     public CommonMemberResponse signup(@RequestBody SignUpRequest signUpRequest, HttpServletResponse httpResponse) {
         CommonMemberResponse commonMemberResponse = memberWriteCase.signUp(signUpRequest);
-        Cookie cookie = new Cookie(token, commonMemberResponse.id());
-        cookie.setHttpOnly(true);
-        cookie.setPath("/");
-        cookie.setMaxAge(Integer.MAX_VALUE);
+        Cookie cookie = bakeCookie(token, commonMemberResponse.id());
         httpResponse.addCookie(cookie);
         return commonMemberResponse;
     }
@@ -36,12 +33,21 @@ public class AuthController {
     @PostMapping("/login")
     public CommonMemberResponse login(@RequestBody LoginRequest loginRequest, HttpServletResponse httpResponse) {
         CommonMemberResponse commonMemberResponse = memberWriteCase.login(loginRequest);
-        httpResponse.addCookie(new Cookie(token, commonMemberResponse.id()));
+        Cookie cookie = bakeCookie(token, commonMemberResponse.id());
+        httpResponse.addCookie(cookie);
         return commonMemberResponse;
     }
 
     @PostMapping("/logout")
     public void logout(HttpServletResponse httpResponse) {
         httpResponse.addCookie(new Cookie(token, null));
+    }
+
+    private Cookie bakeCookie(String key, String value) {
+        Cookie cookie = new Cookie(key, value);
+        cookie.setHttpOnly(true);
+        cookie.setPath("/");
+        cookie.setMaxAge(Integer.MAX_VALUE);
+        return cookie;
     }
 }
