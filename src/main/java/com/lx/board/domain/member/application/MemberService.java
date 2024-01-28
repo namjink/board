@@ -34,6 +34,7 @@ public class MemberService implements MemberReadCase, MemberWriteCase {
     @Override
     public CommonMemberResponse signUp(SignUpRequest signUpRequest) {
         Member member = Member.create(signUpRequest.username(), signUpRequest.password(), signUpRequest.nickname());
+        if (isDuplicate(member)) throw new BusinessException(ErrorCode.DUPLICATE_RESOURCE, "이미 존재하는 아이디입니다.");
         memberPersistent.save(member);
         return new CommonMemberResponse(member.getId().toString(), member.getUsername(), member.getNickname());
     }
@@ -60,5 +61,9 @@ public class MemberService implements MemberReadCase, MemberWriteCase {
         throw new BusinessException(ErrorCode.NOT_YET_IMPLEMENTED);
     }
 
+
+    private boolean isDuplicate(Member member) {
+        return memberPersistent.findByUsername(member.getUsername()) != null;
+    }
 
 }
